@@ -1,11 +1,8 @@
 package com.ft.trox.controllers;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -39,9 +36,7 @@ public class ProductController {
     
     @PostMapping
     public ResponseEntity<Object> createProduct(@RequestBody @Valid ProductDto productDto) {
-        var product = new Product();
-        BeanUtils.copyProperties(productDto, product);
-        product.setCreatedAt(LocalDateTime.now(ZoneId.of("America/Sao_Paulo")));
+        var product = new Product(productDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.save(product));
     }
 
@@ -79,8 +74,8 @@ public class ProductController {
         }
 
         var product = possibleProduct.get();
-        product.update(productDto.getTitle(), productDto.getDescription(), productDto.getCategory(), 
-            productDto.getPrice(), productDto.getUser());
+        product.update(productDto.title(), productDto.description(), productDto.category(), 
+            productDto.price(), productDto.user());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.save(product));
     }
