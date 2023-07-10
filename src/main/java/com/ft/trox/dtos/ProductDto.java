@@ -25,5 +25,5 @@ public record ProductDto (
     BigDecimal price,
 
     @NotBlank
-    String user){
+    String userId){
 }

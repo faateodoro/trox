@@ -12,6 +12,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 
 @Entity
 public class Product implements Serializable {
@@ -20,6 +22,7 @@ public class Product implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JdbcType(VarcharJdbcType.class)
     private UUID id;
 
     @Column(nullable = false, length = 70)
@@ -35,7 +38,7 @@ public class Product implements Serializable {
     private BigDecimal price;
     
     @Column(nullable = false, length = 70)
-    private String user;
+    private String userId;
     
     @Column(nullable = false)
     private LocalDateTime createdAt;
@@ -60,8 +63,8 @@ public class Product implements Serializable {
         return price;
     }
     
-    public String getUser() {
-        return user;
+    public String getUserId() {
+        return userId;
     }
     
     public LocalDateTime getCreatedAt() {
@@ -71,12 +74,12 @@ public class Product implements Serializable {
     @Deprecated
     protected Product() {}
 
-    public Product(String title, String description, String category, BigDecimal price, String user) {
+    public Product(String title, String description, String category, BigDecimal price, String userId) {
         this.title = title;
         this.description = description;
         this.category = category;
         this.price = price;
-        this.user = user;
+        this.userId = userId;
         this.createdAt = LocalDateTime.now();
     }
 
@@ -85,16 +88,16 @@ public class Product implements Serializable {
         this.description = dto.description();
         this.category = dto.category();
         this.price = dto.price();
-        this.user = dto.user();
+        this.userId = dto.userId();
         this.createdAt = LocalDateTime.now();
     }
 
-    public Product update(String title, String description, String category, BigDecimal price, String user) {
+    public Product update(String title, String description, String category, BigDecimal price, String userId) {
         this.title = title;
         this.description = description;
         this.category = category;
         this.price = price;
-        this.user = user;
+        this.userId = userId;
         return this;
     }
 }

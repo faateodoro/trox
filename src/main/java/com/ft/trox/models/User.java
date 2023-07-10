@@ -1,6 +1,7 @@
 package com.ft.trox.models;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.ft.trox.dtos.UserDto;
@@ -13,6 +14,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 
 @Entity
 public class User implements Serializable{
@@ -20,6 +23,7 @@ public class User implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JdbcType(VarcharJdbcType.class)
     private UUID id;
 
     @Column(nullable = false, length = 20, unique = false)
@@ -37,12 +41,15 @@ public class User implements Serializable{
     @Column(nullable = false)
     private boolean active;
 
+    private LocalDateTime createdAt;
+
     public User(String username, String password, String email, UserRole role) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.role = role;
         this.active = true;
+        this.createdAt = LocalDateTime.now();
     }
 
     public User(UserDto dto) {
@@ -79,6 +86,10 @@ public class User implements Serializable{
 
     public boolean isActive() {
         return active;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     public void encodePassword(String password) {

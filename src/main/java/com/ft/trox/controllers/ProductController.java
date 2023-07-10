@@ -75,7 +75,7 @@ public class ProductController {
 
         var product = possibleProduct.get();
         product.update(productDto.title(), productDto.description(), productDto.category(), 
-            productDto.price(), productDto.user());
+            productDto.price(), productDto.userId());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.save(product));
     }

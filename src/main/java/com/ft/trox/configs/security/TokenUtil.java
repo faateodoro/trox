@@ -25,12 +25,13 @@ public class TokenUtil {
     private static final String TOKEN_KEY = "01234567890123456789012345678901";
     private static final long ONE_SECOND = 1000;
     private static final long ONE_MINUTE = 60*ONE_SECOND;
+    private static final long HALF_HOUR = 30*ONE_MINUTE;
 
     public static AuthToken encodeToken(LoginDto loginDto) {
         Key secretKey = Keys.hmacShaKeyFor(TOKEN_KEY.getBytes());
         String tokenJwt = Jwts.builder().setSubject(loginDto.email())
             .setIssuer(ISSUER)
-            .setExpiration(new Date(System.currentTimeMillis() + ONE_MINUTE))
+            .setExpiration(new Date(System.currentTimeMillis() + HALF_HOUR))
             .signWith(secretKey, SignatureAlgorithm.HS256).compact();
         
         AuthToken token = new AuthToken(TOKEN_HEADER + tokenJwt);
